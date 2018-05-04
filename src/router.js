@@ -6,23 +6,23 @@ import Cookie from 'js-cookie'
 import config from './config/config'
 
 // 全局注入路由路径键值对映射
-window.MODULE_TO_ROUTES = {}
-window.ROUTES_TO_MODEL = {}
-window.CURR_TAB_KEY = '/'
+window.MODULE_TO_ROUTES = {};
+window.ROUTES_TO_MODEL = {};
+window.CURR_TAB_KEY = '/';
 
 // DVA注册model方法
-const cached = {}
+const cached = {};
 const registerModel = (app, model, routeObj) => {
-  let { namespace, path } = getPickRouteObj(model, routeObj)
-  model.pathname = path
+  let { namespace, path } = getPickRouteObj(model, routeObj);
+  model.pathname = path;
   if (!cached[namespace]) {
     if (!!routeObj) {
       model.namespace = namespace
     }
-    app.model(model)
+    app.model(model);
     cached[namespace] = 1
   }
-}
+};
 
 // 修改路由路径
 const getRoutePath = function (routeObj) {
@@ -34,43 +34,43 @@ const getRoutePath = function (routeObj) {
     path = routeObj.path
   }
   return path
-}
+};
 
 // 获得新的路由对象
 const getPickRouteObj = function (model, routeObj) {
-  let obj = {}
+  let obj = {};
   if (!routeObj) {
-    obj.namespace = model.namespace
+    obj.namespace = model.namespace;
     obj.path = ''
   } else {
-    obj.namespace = routeObj.namespace
+    obj.namespace = routeObj.namespace;
     obj.path = getRoutePath(routeObj)
   }
   return obj
-}
+};
 
 // 设置路径键值对到全局models2Routes
 const setModel2Routes = function (app, route) {
   if (!!route.routeObj) {
-    let routeObj = route.routeObj
-    let copyRouteObj = JSON.parse(JSON.stringify(routeObj))
-    copyRouteObj.path = getRoutePath(copyRouteObj)
+    let routeObj = route.routeObj;
+    let copyRouteObj = JSON.parse(JSON.stringify(routeObj));
+    copyRouteObj.path = getRoutePath(copyRouteObj);
     // app._models[0].state.model2Routes[route.pathKey] = route.path
-    window.MODULE_TO_ROUTES[routeObj.namespace] = routeObj
+    window.MODULE_TO_ROUTES[routeObj.namespace] = routeObj;
     window.ROUTES_TO_MODEL[copyRouteObj.path] = copyRouteObj
   }
-}
+};
 
 // 路由路径键值对映射
 const getPathKeyRoutes = function (app, routes) {
   if (0 !== routes.length) {
-    let rootRoute = routes[2]
-    let { childRoutes } = rootRoute
+    let rootRoute = routes[2];
+    let { childRoutes } = rootRoute;
 
     if (!childRoutes || 0 === childRoutes.length) {
       setModel2Routes(app, rootRoute)
     } else {
-      childRoutes.push(rootRoute)
+      childRoutes.push(rootRoute);
       childRoutes.forEach((route, i) => {
         setModel2Routes(app, route)
       })
@@ -83,7 +83,6 @@ const beforeEnter = (nextState, replace, next) => {
   //进入路由先解绑所有的排序事件
   document.onkeydown = "";
   next()
-
 }
 
 const Routers = function ({ history, app }) {
@@ -92,7 +91,7 @@ const Routers = function ({ history, app }) {
       path: '/',
       component: () => {
         return <div> {hashHistory.push('/home')} </div>
-      }
+      },
     },
     {
       path: '/login',
@@ -133,19 +132,19 @@ const Routers = function ({ history, app }) {
 
         /***********************       组织管理        ****************************/
         {
-          path: 'orgMgmt/orgList',
-          name: '**列表',
+          path: 'ReceiveMgmt/ReceiveMgmt',
+          name: '库存盘点',
           routeObj: {
-            namespace: 'orgListModel',
-            path: 'orgMgmt/orgList',
+            namespace: 'ReceiveMgmt',
+            path: 'ReceiveMgmt/ReceiveMgmt',
             urlArray: []
           },
           getComponent(nextState, cb) {
             let self =this
             require.ensure([], require => {
-              registerModel(app, require('./biz/orgMgmt/orgListMod'),self.routeObj);
-              cb(null, require('./biz/orgMgmt/orgListView'))
-            }, 'orgList')
+              registerModel(app, require('./biz/map/ReceiveMgmtMod'),self.routeObj);
+              cb(null, require('./biz/map/ReceiveMgmtView'))
+            }, 'ReceiveMgmt')
           },
           onEnter: ''
         },

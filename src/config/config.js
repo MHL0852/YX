@@ -1,12 +1,13 @@
 import { getMessage } from '../utils/intl'
 
 let baseConf = {
-	name: '管理后台',
-	appName: '管理后台',
+	name: '扬翔后台管理系统',
+	appName: '扬翔后台管理系统',
 	loginTitle: '欢迎登录管理后台',
 	prefix: 'antdAdmin',
-	footerText: '云徙科技 版权所有 © 2018',
+// 	footerText: '云徙科技 版权所有 © 2018',
 	logoText: getMessage('console_title'),
+  // sysType:'entCenter',
 	needLogin: false,
 	iconFontUrl: '//at.alicdn.com/t/font_c4y7asse3q1cq5mi.js',
 	baseURL: '',

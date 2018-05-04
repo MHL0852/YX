@@ -13,9 +13,9 @@ const defultState = {
     "memberId": 33,
     "orderId": 1171062282757680128,
     "remark": "3333222",
-    "sellerId": 33 
-  }, 
-}
+    "sellerId": 33
+  },
+};
 
 const tmpModule = {
   state: cloneDeep(defultState),
@@ -37,13 +37,13 @@ const tmpModule = {
           orderId: payload.orderId
         }));
         console.log("result==",result)
-         
+
         if ('0' === '' + result.resultCode){
           yield put({type: 'updateStore', payload: {
             detailData:result.data,
           }})
         }
-         
+
 
       }catch(e){
         console.error(e)

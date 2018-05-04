@@ -151,7 +151,7 @@ const testView = function ({dispatch, testModel, form}) {
     showSizeChanger: true,
     showQuickJumper: true,
     onChange: "" //分页事件
-  }
+  };
 
   let queryList = [];
 
